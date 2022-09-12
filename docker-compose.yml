@@ -3,15 +3,24 @@ services:
   debug:
     image: phpstorm/php-71-apache-xdebug
     ports:
-      - "8081:80"
+      - "80:80"
     volumes:
       - ./:/var/www/html
     environment:
-      XDEBUG_CONFIG: jk=host.docker.internal
+      XDEBUG_CONFIG: remote_host=host.docker.internal
+    links:
+      - mysql
 
   mysql:
-    image: phpstorm/mysql
-    ports:
-      - "33056:3306"
+    image: mysql:latest
+    command: ['--default-authentication-plugin=mysql_native_password']
     volumes:
-      - ./data:/var/lib/mysql
+      - db_vol:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: appDB
+      MYSQL_ROOT_PASSWORD: 1234
+
+volumes:
+  db_vol:
