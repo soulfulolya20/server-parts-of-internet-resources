@@ -11,13 +11,37 @@ services:
     links:
       - mysql
 
+  drawer:
+    container_name: drawer-php
+    image: php:7.2-apache
+    ports:
+      - "81:80"
+    volumes:
+      - ./practices/practice2/drawer:/var/www/html
+
+  sort:
+    container_name: sort-php
+    image: php:7.2-apache
+    ports:
+      - "82:80"
+    volumes:
+      - ./practices/practice2/sort:/var/www/html
+
+  bash:
+    container_name: bash-php
+    image: php:7.2-apache
+    ports:
+      - "83:80"
+    volumes:
+      - ./practices/practice2/bash:/var/www/html
+
   mysql:
     image: mysql:latest
     command: ['--default-authentication-plugin=mysql_native_password']
     volumes:
       - db_vol:/var/lib/mysql
     ports:
-      - "3306:3306"
+      - "33056:3306"
     environment:
       MYSQL_DATABASE: appDB
       MYSQL_ROOT_PASSWORD: 1234
